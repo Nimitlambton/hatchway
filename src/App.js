@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, { Component } from "react";
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      students: [],
+    };
+  }
+
+  componentWillMount() {
+    fetch("https://api.hatchways.io/assessment/students").then((res) =>
+      res.json().then((students) => {
+        this.setState(students);
+      })
+    );
+  }
+
+  render() {
+    return (
+      <h6>
+        {this.state.students.map((students) => (
+          <ol>
+            <li>
+              <img src={students.pic}></img>
+              <br></br>
+              {students.firstName} {students.lastName}
+              <br></br> {students.email}
+              <br></br> {students.skill}
+              <br></br>
+              {students}
+            </li>
+          </ol>
+        ))}
+      </h6>
+    );
+  }
 }
 
 export default App;
